@@ -2,6 +2,8 @@
 
 This is a repo containg some simple Cypress commands, intended for use as simplifying building blocks for more complicated/realistic testing scenarios. The aim is that using these commands makes writing, reading and debugging tests much easier. 
 
+Please note, this repo is in no way affliated or approved by Cypress, it is purely to make help me use Cypress for the various testing project I use it on. It's an awesome testing framework, if you haven't then you should definietly check it out: https://www.cypress.io/
+
 ## Getting started
 
 Add this module to your project using `npm install cypress-tools --save-dev` and then import this module in your Cypress support file (usually found at `./cypress/support/index.js`). Alternatively, you can import it in each test file where it's needed if that better suits your usage. 
@@ -64,6 +66,7 @@ Usage:
 This command checks that a link has the right text, url, and if specified, whether it opens in a new tab
 
 Usage:
+
 Normally:
 `cy.test_link('some-data-testid', 'some url text', 'some-url.com')`
 
@@ -80,6 +83,7 @@ Usage:
 This command checks the url is as expected. It accepts an optional argument to test query params
 
 Usage:
+
 No query params:
 `cy.test_url('some-url.com')`
 
@@ -90,6 +94,7 @@ Query params:
 This command check whether the element is either visible on the page, or doesn't exist in the DOM
 
 Usage:
+
 Visible:
 `cy.test_visibility('some-data-testid')`
 
