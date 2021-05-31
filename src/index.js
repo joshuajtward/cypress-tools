@@ -68,7 +68,7 @@ Cypress.Commands.add('test_css', test_css)
 // custom command to test that a DOM element exists and contains a string and a link
 const test_link = (dataTestId, content, href, new_tab=false) => {
     cy.test_content(dataTestId, content)
-    cy.test_attr(dataTestId, { 'ref': href })
+    cy.test_attr(dataTestId, { 'href': href })
     if (new_tab) {
         cy.test_attr(dataTestId, { 'target': '_blank' })
     }
