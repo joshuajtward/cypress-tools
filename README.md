@@ -2,7 +2,7 @@
 
 This is a repo containg some simple Cypress commands, intended for use as simplifying building blocks for more complicated/realistic testing scenarios. The aim is that using these commands makes writing, reading and debugging tests much easier. 
 
-Please note, this repo is in no way affliated or approved by Cypress, it is purely to make help me use Cypress for the various testing project I use it on. It's an awesome testing framework, if you haven't then you should definietly check it out: https://www.cypress.io/
+Please note, this repo is in no way affliated or approved by Cypress, it is purely to help me use Cypress for the various testing projects I am involved with. Cypress is an awesome testing framework for modern web applications, if you haven't then you should definietly check them out: https://www.cypress.io/
 
 ## Getting started
 
