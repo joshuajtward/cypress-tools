@@ -88,7 +88,7 @@ Cypress.Commands.add('test_text', test_text)
 
 // assert that the url is as expected
 // (note: must be on same domain as config.baseURL)
-const test_url = (url) => {
+const test_url = (url, params) => {
     cy.location('pathname').should('eq', url, { timeout: 15000 })
     if (params) {
         cy.location('search').should('eq', params)
