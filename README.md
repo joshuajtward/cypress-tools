@@ -39,7 +39,7 @@ Usage:
 ## various assertions
 
 ### `test_attr`
-This command uses `get_element` to assert the attirbutes of an element
+This command uses `get_element` to assert the attributes of an element
 
 Usage:
 `cy.test_attr('some-data-testid', { 
