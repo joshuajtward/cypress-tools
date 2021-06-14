@@ -1,0 +1,27 @@
+<!-- a very simple file to run the test suite against -->
+<head>
+    <title>
+        cypress-tools test file
+    </title>
+    <meta name='description' content='A test file for verifying all the commands work as expected'>
+</head>
+<body>
+    <div attribute='test-attribute' data-testid='test-div'>
+        <h1 style='font-weight: 300' data-testid='test-heading'>Test heading</p>
+        <p style='font-size: 16px' data-testid='test-paragraph'>Blah blah blah</p>
+        <p style='font-size: 12px; font-weight: 800; color: blue' data-testid='test-styled-paragraph'>Blah blah blah</p>
+        <input data-testid='test-input' />
+    </div>
+    <div class='a2j342mm' data-form-name='test-form' data-testid='dropdown-div'>
+        <select data-testid='test-dropdown'>
+            <option>Cat</option>
+            <option>Dog</option>
+            <option>Hamster</option>
+            <option>Parrot</option>
+        </select>
+    </div>
+    <button id='button' style='background-color: darkcyan' onClick="getElementById('button').innerHTML = 'Clicked!'" data-testid='test-button'>
+        Click me!
+    </button>
+    <a href="https://www.npmjs.com/package/cypress-tools" data-testid='test-link'>Test link</a>
+</body>

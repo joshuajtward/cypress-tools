@@ -36,7 +36,7 @@ This uses `get_element` to select an element and then type into it
 Usage:
 `cy.type_into_element('some-data-testid', 'any text you want')`
 
-## various assertions
+## Various assertions
 
 ### `test_attr`
 This command uses `get_element` to assert the attributes of an element
@@ -60,7 +60,7 @@ Usage:
 `cy.test_css('some-data-testid', { 
     'attribute_1': value_1,
     'attribute_2': value_2,
- })`
+})`
 
 ### `test_link`
 This command checks that a link has the right text, url, and if specified, whether it opens in a new tab
@@ -74,10 +74,15 @@ Link should open in a new tab:
 `cy.test_link('some-data-testid', 'some url text', 'some-url.com', true)`
     
 ### `test_text`
-This command checks the text, font size and font colour of a text-containing element
+This command checks the content, size, weight, colour of the text in an element
 
 Usage:
-`cy.test_text('some-data-testid', 'some text', '16px', 'rgb(0, 0, 0)')`
+`cy.test_text('some-data-testid', 'some text', { color: 'rgb(0, 0, 0)', font_size: '16px', font_weight: '300' })`
+
+As styling is often consistent throughout a site, the following values can be used to set defaults using a `cypress.env.json` file:
+    `default_font_colour` => defaults to black, `rgb(0, 0, 0)`
+    `default_font_size` => defaults to 12px 
+    `default_font_weight` => defaults to 300
     
 ### `test_url`
 This command checks the url is as expected. It accepts an optional argument to test query params
@@ -101,7 +106,7 @@ Visible:
 Not:
 `cy.test_visibility('some-data-testid', false)`
 
-## page metadata assertions
+## Page metadata assertions
 
 ### `test_meta_description`
 This command verifies that the page's meta description is correct
@@ -114,3 +119,8 @@ This command verifies that the page's meta title is correct
 
 Usage:
 `cy.test_page_title('The greatest website of them all')`
+
+
+## More examples
+
+More examples of these commands and their usage can be found in the test suite for this package, under the `cypress/intergration` directory
