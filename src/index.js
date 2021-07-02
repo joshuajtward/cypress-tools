@@ -107,10 +107,12 @@ const test_url = (url, params) => {
 Cypress.Commands.add('test_url', test_url)
 
 // assert that an element is visible (or not)
-// pass false as the second argument to test that an element doesn not exist
+// pass false as the second argument to test that an element does not exist
 const test_visibility = (dataTestId, visible=true) => {
     if (visible) {
         cy.get_element(dataTestId)
+          // scrollIntoView ensures lazy-loaded images get rendered
+          .scrollIntoView()
           .should('be.visible')
     } else {
         cy.get_element(dataTestId)
