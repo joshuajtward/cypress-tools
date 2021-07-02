@@ -1,3 +1,7 @@
+[![NPM](https://nodei.co/npm/cypress-tools.png?compact=true)](https://nodei.co/npm/cypress-tools/)
+
+![tests](https://github.com/joshuajtward/cypress-tools/actions/workflows/test.js.yml/badge.svg)
+
 # cypress-tools
 
 This is a repo containg some simple Cypress commands, intended for use as simplifying building blocks for more complicated/realistic testing scenarios. The aim is that using these commands makes writing, reading and debugging tests much easier. 
