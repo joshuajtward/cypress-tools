@@ -33,8 +33,9 @@ describe('tests for the building-block assertion commands', () => {
     })
     
     it('test_text', () => {
-        cy.test_text('test-heading', 'Blah blah blah', { color: 'rgb(0, 0, 0)', font_size: '32px', font_weight: '300' })
+        cy.test_text('test-heading', 'Blah blah blah', { 'color': 'rgb(0, 0, 0)', 'font-size': '32px', 'font-weight': '300' })
         cy.test_text('test-paragraph', 'Blah blah blah')
+        cy.test_text('test-styled-paragraph', 'Blah blah blah', { 'color': 'rgb(0, 0, 255)' })
     })
 
     it('test_url', () => {

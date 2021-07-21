@@ -76,23 +76,18 @@ const test_link = (dataTestId, content, href, new_tab=false) => {
 Cypress.Commands.add('test_link', test_link)
   
 // assert that an element contains the text provided, with (some of) the right styling
-// checks that the element has the right text, it is the right size, weight and colour
+// checks that the element has the right text, and optionally verify the CSS of the text
 const test_text = (dataTestId, text, style) => {
+    cy.test_content(dataTestId, text)
+
     if (!style) {
         style = {}
     }
 
-    // use the value specified in the command, or in the cypress.env.json, then default to the hard coded value
-    const assert_colour = style.color || Cypress.env('default_font_colour') || 'rgb(0, 0, 0)'
-    const assert_font_size = style.font_size || Cypress.env('default_font_size') || '16px'
-    const assert_font_weight = style.font_weight || Cypress.env('default_font_weight') || '300'
-
-    cy.test_content(dataTestId, text)
-    cy.test_css(dataTestId, {
-        'color': assert_colour,
-        'font-size': assert_font_size,
-        'font-weight': assert_font_weight
-    })
+    for (const [key, value] of Object.entries(style)) {
+        cy.get_element(dataTestId)
+          .should('have.css', key, value)
+    }
 }
 Cypress.Commands.add('test_text', test_text)
 

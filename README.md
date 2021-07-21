@@ -78,15 +78,12 @@ Link should open in a new tab:
 `cy.test_link('some-data-testid', 'some url text', 'some-url.com', true)`
     
 ### `test_text`
-This command checks the content, size, weight, colour of the text in an element
+This command checks the content, and CSS of the text in an element
 
 Usage:
-`cy.test_text('some-data-testid', 'some text', { color: 'rgb(0, 0, 0)', font_size: '16px', font_weight: '300' })`
+`cy.test_text('some-data-testid', 'some text', { 'color': 'rgb(0, 0, 0)', 'font-size': '16px' })`
 
-As styling is often consistent throughout a site, the following values can be used to set defaults using a `cypress.env.json` file:
-    `default_font_colour` => defaults to black, `rgb(0, 0, 0)`
-    `default_font_size` => defaults to 12px 
-    `default_font_weight` => defaults to 300
+You can use any valid CSS element in the styles object
     
 ### `test_url`
 This command checks the url is as expected. It accepts an optional argument to test query params
