@@ -12,7 +12,7 @@
     "src"
   ],
   "devDependencies": {
-    "cypress": "^7.5.0",
+    "cypress": "^8.0.0",
     "yarn": "^1.22.10"
   }
 }
