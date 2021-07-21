@@ -3,14 +3,29 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 // use the data-testid to get an element
-const get_element = (dataTestId) => {
-    cy.get(`[data-testid="${dataTestId}"]`)
+const get_element = (dataTestId, instance) => {
+    if (instance) {
+        // `instance - 1` is to offest zero-indexing
+        cy.get(`[data-testid="${dataTestId}"]`).eq(instance - 1)
+    } else {
+        cy.get(`[data-testid="${dataTestId}"]`)
+    }
 }
 Cypress.Commands.add('get_element', get_element)
 
 // using get_element to click on an element
-const click_element = (dataTestId) => {
-    cy.get_element(dataTestId).click()
+const click_element = (dataTestId, instance) => {
+    switch (instance) {
+        case 'all':
+            cy.get_element(dataTestId).click({ multiple: true })
+            break
+        case undefined:
+            cy.get_element(dataTestId).click()
+            break
+        default:
+            cy.get_element(dataTestId, instance).click()
+            break
+    }
 }
 Cypress.Commands.add('click_element', click_element)
 
@@ -21,10 +36,15 @@ const select_from_dropdown = (dataTestId, value) => {
 Cypress.Commands.add('select_from_dropdown', select_from_dropdown)
 
 // using get_element to type into a field
-const type_into_element = (dataTestId, text) => {
-    cy.get_element(dataTestId).type(text)
+const type_into_element = (dataTestId, text, instance) => {
+    if (instance) {
+        cy.get_element(dataTestId, instance).type(text)
+    } else {
+        cy.get_element(dataTestId).type(text)
+    }
 }
 Cypress.Commands.add('type_into_element', type_into_element)
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 // VARIOUS ASSERTIONS 
@@ -42,10 +62,9 @@ const test_attr = (dataTestId, tests) => {
 Cypress.Commands.add('test_attr', test_attr)
 
 // assert that an element contains the text provided
-// pass false as the third argument to test this even if the element is not visible
-const test_content = (dataTestId, text, visible=true) => {
-    if (visible) {
-        cy.get_element(dataTestId)
+const test_content = (dataTestId, text, instance) => {
+    if (instance) {
+        cy.get_element(dataTestId, instance)
           .should('be.visible')
           .should('contain', text)
     } else {
@@ -75,18 +94,24 @@ const test_link = (dataTestId, content, href, new_tab=false) => {
 }
 Cypress.Commands.add('test_link', test_link)
   
-// assert that an element contains the text provided, with (some of) the right styling
-// checks that the element has the right text, and optionally verify the CSS of the text
-const test_text = (dataTestId, text, style) => {
-    cy.test_content(dataTestId, text)
-
-    if (!style) {
+// checks that the element has the right text, and optionally verify the CSS
+const test_text = (dataTestId, text, style, instance) => {
+    if (style === undefined) {
         style = {}
     }
 
-    for (const [key, value] of Object.entries(style)) {
-        cy.get_element(dataTestId)
-          .should('have.css', key, value)
+    if (instance) {
+        cy.test_content(dataTestId, text, instance)
+        for (const [key, value] of Object.entries(style)) {
+            cy.get_element(dataTestId, instance)
+              .should('have.css', key, value)
+        }
+    } else {
+        cy.test_content(dataTestId, text)
+        for (const [key, value] of Object.entries(style)) {
+            cy.get_element(dataTestId)
+              .should('have.css', key, value)
+        }
     }
 }
 Cypress.Commands.add('test_text', test_text)
@@ -101,17 +126,29 @@ const test_url = (url, params) => {
 }
 Cypress.Commands.add('test_url', test_url)
 
-// assert that an element is visible (or not)
-// pass false as the second argument to test that an element does not exist
-const test_visibility = (dataTestId, visible=true) => {
-    if (visible) {
+// assert that an element is visible, hidden, or not rendered
+const test_visibility = (dataTestId, options) => {
+    if (options === undefined) {
         cy.get_element(dataTestId)
-          // scrollIntoView ensures lazy-loaded images get rendered
           .scrollIntoView()
           .should('be.visible')
-    } else {
-        cy.get_element(dataTestId)
-          .should('not.exist')
+    } else { 
+        // if nothing is passed for visibility option then default to true
+        const visibility = (options.visible === undefined ? true : options.visible)
+        // offset the zero-index
+        const instance = options.instance - 1
+
+        switch (visibility) {
+            case 'hidden':
+                cy.get(`[data-testid="${dataTestId}"]`).eq(instance).should('be.hidden')
+                break
+            case 'nonexistant':
+                cy.get(`[data-testid="${dataTestId}"]`).should('not.exist')
+                break
+            default:
+                cy.get(`[data-testid="${dataTestId}"]`).eq(instance).scrollIntoView().should('be.visible')
+                break
+        }
     }
 }
 Cypress.Commands.add('test_visibility', test_visibility)
