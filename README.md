@@ -136,14 +136,17 @@ Usage:
 - Visible:
   `cy.test_visibility('some-data-testid')`
 
+- Not visible:
+  `cy.test_visibility('some-data-testid', { visible: 'false' })`
+
 - Hidden:
-  `cy.test_visibility('test-paragraph', { visible: 'hidden' })`
+  `cy.test_visibility('some-data-testid', { visible: 'hidden' })`
 
 - Nonexistant/not rendered
-  `cy.test_visibility('test-paragraph', { visible: 'nonexistant' })`
+  `cy.test_visibility('some-data-testid', { visible: 'nonexistant' })`
 
 You can also specify the nth element with this `data-testid` by specifying an instance value:
-`cy.test_visibility('test-paragraph', { instance: 2, visible: 'nonexistant' })`
+`cy.test_visibility('some-data-testid', { instance: 2, visible: 'nonexistant' })`
 
 ## Page metadata assertions
 
