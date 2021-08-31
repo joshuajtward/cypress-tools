@@ -81,7 +81,7 @@ Usage:
 - Test the content of an element:
   `cy.test_content('some-data-testid', 'any text you want')`
 
-- Type into the nth element (the 2nd in this example) with that `data-testid`:
+- Test the content of the nth element (the 2nd in this example) with that `data-testid`:
   `cy.test_content('some-data-testid', 'any text you want', 2)`-
 
 ### `test_css`
