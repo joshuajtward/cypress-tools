@@ -1,46 +1,51 @@
+let selector = "";
+Cypress.env("customSelector")
+  ? (selector = Cypress.env("customSelector"))
+  : (selector = "data-testid");
+
 ////////////////////////////////////////////////////////////////////////////////////
 // INTERACTING WITH ELEMENTS
 ////////////////////////////////////////////////////////////////////////////////////
 
-// use the data-testid to get an element
-const get_element = (dataTestId, instance) => {
+// use the chosen selector to get an element
+const get_element = (selectorValue, instance) => {
   if (instance) {
     // `instance - 1` is to offest zero-indexing
-    cy.get(`[data-testid="${dataTestId}"]`).eq(instance - 1);
+    cy.get(`[${selector}="${selectorValue}"]`).eq(instance - 1);
   } else {
-    cy.get(`[data-testid="${dataTestId}"]`);
+    cy.get(`[${selector}="${selectorValue}"]`);
   }
 };
 Cypress.Commands.add("get_element", get_element);
 
 // using get_element to click on an element
-const click_element = (dataTestId, instance) => {
+const click_element = (selectorValue, instance) => {
   switch (instance) {
     case "all":
-      cy.get_element(dataTestId).click({ multiple: true });
+      cy.get_element(selectorValue).click({ multiple: true });
       break;
     case undefined:
-      cy.get_element(dataTestId).click();
+      cy.get_element(selectorValue).click();
       break;
     default:
-      cy.get_element(dataTestId, instance).click();
+      cy.get_element(selectorValue, instance).click();
       break;
   }
 };
 Cypress.Commands.add("click_element", click_element);
 
 // using get_element to select a value from a dropdown list
-const select_from_dropdown = (dataTestId, value) => {
-  cy.get_element(dataTestId).select(value);
+const select_from_dropdown = (selectorValue, value) => {
+  cy.get_element(selectorValue).select(value);
 };
 Cypress.Commands.add("select_from_dropdown", select_from_dropdown);
 
 // using get_element to type into a field
-const type_into_element = (dataTestId, text, instance) => {
+const type_into_element = (selectorValue, text, instance) => {
   if (instance) {
-    cy.get_element(dataTestId, instance).type(text);
+    cy.get_element(selectorValue, instance).type(text);
   } else {
-    cy.get_element(dataTestId).type(text);
+    cy.get_element(selectorValue).type(text);
   }
 };
 Cypress.Commands.add("type_into_element", type_into_element);
@@ -51,59 +56,59 @@ Cypress.Commands.add("type_into_element", type_into_element);
 
 // assert that an element has certain attributes
 // expects a 'tests' object with the desired key/value pairs to assert on
-const test_attr = (dataTestId, tests) => {
+const test_attr = (selectorValue, tests) => {
   for (const [key, value] of Object.entries(tests)) {
-    cy.get_element(dataTestId).should("have.attr", key, value);
+    cy.get_element(selectorValue).should("have.attr", key, value);
   }
 };
 Cypress.Commands.add("test_attr", test_attr);
 
 // assert that an element contains the text provided
-const test_content = (dataTestId, text, instance) => {
+const test_content = (selectorValue, text, instance) => {
   if (instance) {
-    cy.get_element(dataTestId, instance)
+    cy.get_element(selectorValue, instance)
       .should("be.visible")
       .should("contain", text);
   } else {
-    cy.get_element(dataTestId).should("contain", text);
+    cy.get_element(selectorValue).should("contain", text);
   }
 };
 Cypress.Commands.add("test_content", test_content);
 
 // assert that an element has css properties
 // expects a 'tests' object with the desired key/value pairs to assert on
-const test_css = (dataTestId, tests) => {
+const test_css = (selectorValue, tests) => {
   for (const [key, value] of Object.entries(tests)) {
-    cy.get_element(dataTestId).should("have.css", key, value);
+    cy.get_element(selectorValue).should("have.css", key, value);
   }
 };
 Cypress.Commands.add("test_css", test_css);
 
 // custom command to test that a DOM element exists and contains a string and a link
-const test_link = (dataTestId, content, href, new_tab = false) => {
-  cy.test_content(dataTestId, content);
-  cy.test_attr(dataTestId, { href: href });
+const test_link = (selectorValue, content, href, new_tab = false) => {
+  cy.test_content(selectorValue, content);
+  cy.test_attr(selectorValue, { href: href });
   if (new_tab) {
-    cy.test_attr(dataTestId, { target: "_blank" });
+    cy.test_attr(selectorValue, { target: "_blank" });
   }
 };
 Cypress.Commands.add("test_link", test_link);
 
 // checks that the element has the right text, and optionally verify the CSS
-const test_text = (dataTestId, text, style, instance) => {
+const test_text = (selectorValue, text, style, instance) => {
   if (style === undefined) {
     style = {};
   }
 
   if (instance) {
-    cy.test_content(dataTestId, text, instance);
+    cy.test_content(selectorValue, text, instance);
     for (const [key, value] of Object.entries(style)) {
-      cy.get_element(dataTestId, instance).should("have.css", key, value);
+      cy.get_element(selectorValue, instance).should("have.css", key, value);
     }
   } else {
-    cy.test_content(dataTestId, text);
+    cy.test_content(selectorValue, text);
     for (const [key, value] of Object.entries(style)) {
-      cy.get_element(dataTestId).should("have.css", key, value);
+      cy.get_element(selectorValue).should("have.css", key, value);
     }
   }
 };
@@ -120,9 +125,9 @@ const test_url = (url, params) => {
 Cypress.Commands.add("test_url", test_url);
 
 // assert that an element is visible, hidden, or not rendered
-const test_visibility = (dataTestId, options) => {
+const test_visibility = (selectorValue, options) => {
   if (options === undefined) {
-    cy.get_element(dataTestId).scrollIntoView().should("be.visible");
+    cy.get_element(selectorValue).scrollIntoView().should("be.visible");
   } else {
     // if nothing is passed for visibility option then default to true
     const visibility = options.visible === undefined ? true : options.visible;
@@ -135,20 +140,20 @@ const test_visibility = (dataTestId, options) => {
 
     switch (visibility) {
       case "hidden":
-        cy.get_element(dataTestId, instance).should("be.hidden");
+        cy.get_element(selectorValue, instance).should("be.hidden");
         break;
       case "nonexistant":
         if (instance === 1) {
-          cy.get_element(dataTestId).should("not.exist");
+          cy.get_element(selectorValue).should("not.exist");
         } else {
-          cy.get_element(dataTestId, instance).should("not.exist");
+          cy.get_element(selectorValue, instance).should("not.exist");
         }
         break;
       case false:
-        cy.get_element(dataTestId, instance).should("not.be.visible");
+        cy.get_element(selectorValue, instance).should("not.be.visible");
         break;
       default:
-        cy.get_element(dataTestId, instance)
+        cy.get_element(selectorValue, instance)
           .scrollIntoView()
           .should("be.visible");
         break;
