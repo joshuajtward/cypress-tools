@@ -10,7 +10,7 @@ Cypress.env("customSelector")
 // use the chosen selector to get an element
 const get_element = (selectorValue, instance) => {
   if (instance) {
-    // `instance - 1` is to offest zero-indexing
+    // `instance - 1` is to offset zero-indexing
     cy.get(`[${selector}="${selectorValue}"]`).eq(instance - 1);
   } else {
     cy.get(`[${selector}="${selectorValue}"]`);
