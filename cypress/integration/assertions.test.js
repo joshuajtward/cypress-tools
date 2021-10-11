@@ -85,7 +85,7 @@ describe("tests for the building-block assertion commands", () => {
     });
   });
 
-  describe.only("test_visibility", () => {
+  describe("test_visibility", () => {
     it("tests the visibility of an element", () => {
       cy.test_visibility("dropdown-div");
     });
