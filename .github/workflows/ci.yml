@@ -1,4 +1,4 @@
-name: tests
+name: CI
 
 on:
   push:
@@ -13,28 +13,29 @@ jobs:
       fail-fast: false
       matrix:
         job:
+          - build
           - check:types
-          - test
+          - lint
     name: ${{ matrix.job }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .nvmrc
       - uses: actions/cache@v3
         id: nodeCache
         name: Cache Node Modules
         with:
           key: node-modules-node-20-${{ hashFiles('yarn.lock') }}
           path: node_modules/**
-      - uses: actions/cache@v3
-        id: cypressCache
-        name: Cache Cypress
-        with:
-          key: cypress-node-20-${{ hashFiles('yarn.lock') }}
-          path: ~/.cache/Cypress
+      # - uses: actions/cache@v3
+      #   id: cypressCache
+      #   name: Cache Cypress
+      #   with:
+      #     key: cypress-node-20-${{ hashFiles('yarn.lock') }}
+      #     path: ~/.cache/Cypress
       - run: yarn install
         if: steps.nodeCache.outputs.cache-hit != 'true'
-      - run: yarn cypress install
-        if: steps.cypressCache.outputs.cache-hit != 'true'
+      # - run: yarn cypress install
+      #   if: steps.cypressCache.outputs.cache-hit != 'true'
       - run: yarn ${{ matrix.job }}
