@@ -12,158 +12,45 @@ Please note, this repo is in no way affliated or approved by Cypress, it is pure
 
 Add this module to your project using `npm install cypress-tools --save-dev` and then import this module in your Cypress support file (usually found at `./cypress/support/index.js`). Alternatively, you can import it in each test file where it's needed if that better suits your usage.
 
-Most of the commands (currently at least) use `data-testid` as the selector to find and assert on elements. This means that as long as you are using the `data-testid` tag on all of the elements you are testing, you only need to pass the value, instead of `'[data-testid="some-data-testid"]'`.
-
-A future release will allow the specification of a default selector.
-
-## Interacting with elements
-
-### `get_element`
-
-This is the most simple command in this repo, but most other commands re-use it
-
-Usage:
-
-- Get elements by `data-testid` (will return multiple if there are multiple):
-  `cy.get_element('some-data-testid')`
-
-- Get the nth element (the 2nd in this example) with that `data-testid`:
-  `cy.get_element('some-data-testid', 2)`
-
-### `click_element`
-
-As you might expect, this uses `get_element` to click on an element
-
-- Click an element by `data-testid`:
-  `cy.click_element('some-data-testid')`
-
-- Click the nth element (the 2nd in this example) with that `data-testid`:
-  `cy.click_element('some-data-testid', 2)`
-
-- Click all the elements with that `data-testid`:
-  `cy.click_element('some-data-testid', 'all')`
-
-### `select_from_dropdown`
-
-This selects options from valid elements, for example a dropdown list
-
-Usage:
-`cy.select_from_dropdown('some-data-testid', 'the desired option')`
-
-### `type_into_element`
-
-This uses `get_element` to select an element and then type into it
-
-Usage:
-
-- Type into an element by `data-testid`:
-  `cy.type_into_element('some-data-testid', 'any text you want')`
-
-- Type into the nth element (the 2nd in this example) with that `data-testid`:
-  `cy.type_into_element('some-data-testid', 'any text you want', 2)`
-
-## Various assertions
-
-### `test_attr`
-
-This command uses `get_element` to assert the attributes of an element
-
-Usage:
-`cy.test_attr('some-data-testid', { 'attribute_1': value_1, 'attribute_2': value_2, })`
-
-### `test_content`
-
-Asserts that an element contains the text specified
-Note: `cy.test_text()` may be a better choice if you wish to also verify styling
-
-Usage:
-
-- Test the content of an element:
-  `cy.test_content('some-data-testid', 'any text you want')`
-
-- Test the content of the nth element (the 2nd in this example) with that `data-testid`:
-  `cy.test_content('some-data-testid', 'any text you want', 2)`-
-
-### `test_css`
-
-This command uses `get_element` to assert the css proprties of an element
-
-Usage:
-`cy.test_css('some-data-testid', { 'attribute_1': value_1, 'attribute_2': value_2, })`
-
-### `test_link`
-
-This command checks that a link has the right text, url, and if specified, whether it opens in a new tab
-
-Usage:
-
-- Normally:
-  `cy.test_link('some-data-testid', 'some url text', 'some-url.com')`
-
-- Link should open in a new tab:
-  `cy.test_link('some-data-testid', 'some url text', 'some-url.com', true)`
-
-### `test_text`
-
-This command checks the content and CSS of the text in an element
-
-Test the text within an element:
-`cy.test_text('some-data-testid', 'any text you want', { 'color': 'rgb(0, 0, 0)', 'font-size': '16px' })`
-
-Test the text within the nth element (the 2nd in this example) with that `data-testid`:
-`cy.test_text('some-data-testid', 'any text you want', { 'font-weight': '600' }, 2)`
-
-You can use any valid CSS element in the styles object
-
-### `test_url`
-
-This command checks the url is as expected. It accepts an optional argument to test query params
-
-Usage:
-
-- No query params:
-  `cy.test_url('some-url.com')`
-
-- Query params:
-  `cy.test_url('some-url.com', '?utm=take-all-my-data')`
-
-### `test_visibility`
-
-This command check whether the element is either visible on the page, or doesn't exist in the DOM
-
-Usage:
-
-- Visible:
-  `cy.test_visibility('some-data-testid')`
-
-- Not visible:
-  `cy.test_visibility('some-data-testid', { visible: 'false' })`
-
-- Hidden:
-  `cy.test_visibility('some-data-testid', { visible: 'hidden' })`
-
-- Nonexistant/not rendered
-  `cy.test_visibility('some-data-testid', { visible: 'nonexistant' })`
-
-You can also specify the nth element with this `data-testid` by specifying an instance value:
-`cy.test_visibility('some-data-testid', { instance: 2, visible: 'nonexistant' })`
-
-## Page metadata assertions
-
-### `test_meta_description`
-
-This command verifies that the page's meta description is correct
-
-Usage:
-`cy.test_meta_description('this is a great website')`
-
-### `test_page_title`
-
-This command verifies that the page's meta title is correct
-
-Usage:
-`cy.test_page_title('The greatest website of them all')`
-
-## More examples
-
-More examples of these commands and their usage can be found in the test suite for this package, under the `cypress/intergration` directory
+Most of the commands use the default selector `data-testid` to find and assert on elements. This means that as long as you are using the `data-testid` tag on the elements you are testing, you only need to pass the value of the tag, instead of `'[data-testid="some-data-testid"]'`. To choose a different value, add the `defaultSelector` field to your Cypress env configuration:
+
+```typescript
+// cypress.config.ts
+{
+  e2e: {
+    env: {
+      defaultSelector: 'data-cy'
+    }
+  },
+  ...
+}
+```
+
+Or in a specific test file:
+
+```typescript
+// example.cy.ts
+Cypress.env('defaultSelector', 'data-cy')
+
+describe('tests' () => {
+  ...
+})
+```
+
+## Commands available
+
+More info about these commands and their usage is available via their type definitions
+
+| Command Name | Description                         |
+| ------------ | ----------------------------------- |
+| `assertAttr` | Assert the attributes of an element |
+| `assertCss`  | Assert the CSS of an element        |
+| `assertVis`  | Assert the visibility of an element |
+| `checkTag`   | Check a checkbox                    |
+| `clickTag`   | Click an element                    |
+| `count`      | Get the count of an element by tag  |
+| `exists`     | Check an element exists             |
+| `getTag`     | Get an element                      |
+| `selectTag`  | Select from a dropdown              |
+| `text`       | Get the text from an element        |
+| `typeText`   | Type into an element                |

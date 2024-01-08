@@ -28,6 +28,22 @@ declare global {
         }
       ): Chainable<void>;
       /**
+       * Gets the count of elements with the given selector tag
+       *
+       * @param tag the string to build the selector with
+       * @example cy.count('example')
+       * // sugar for cy.get('[data-testid="example"]').its('length')
+       * @example cy.count('example', 3)
+       * // sugar for cy.get('[data-testid="example"]').should('have.length', 3)
+       * @example cy.count('example', 3, 'above')
+       * // sugar for cy.get('[data-testid="example"]').should('have.length.above', 3)
+       */
+      count(
+        tag: string,
+        expected?: number | undefined,
+        modifier?: "above" | "below"
+      ): Chainable<number>;
+      /**
        * Gets an element with the given selector tag
        *
        * @param tag the string to build the selector with
@@ -50,6 +66,14 @@ declare global {
     }
   }
 }
+
+Cypress.Commands.add("count", (tag, expected, modifier = undefined) => {
+  if (expected !== undefined) return cy.getTag(tag).its("length");
+  cy.getTag(tag).should(
+    `have.length${modifier ? modifier + "." : ""}`,
+    expected
+  );
+});
 
 Cypress.Commands.add("clickTag", (tag, options = {}) => {
   const { index = 0 } = options;
