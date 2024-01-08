@@ -7,8 +7,15 @@ on:
     branches: main
 
 jobs:
-  test:
+  checks:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        job:
+          - check:types
+          - test
+    name: ${{ matrix.job }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -19,10 +26,11 @@ jobs:
         with:
           key: node-modules-node-20-${{ hashFiles('yarn.lock') }}
           path: node_modules/**
-      - uses: actions/cache@v3
-        with:
-          key: node-modules-node-20-${{ hashFiles('yarn.lock') }}
-          path: node_modules/**
+      # - uses: actions/cache@v3
+      #   id: cypressCache
+      #   with:
+      #     key: node-modules-node-20-${{ hashFiles('yarn.lock') }}
+      #     path: node_modules/**
       - run: yarn install
         if: steps.nodeCache.outputs.cache-hit != 'true'
-      - run: yarn cypress run
+      - run: yarn ${{ matrix.job }}

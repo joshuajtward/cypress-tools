@@ -11,6 +11,10 @@
   "files": [
     "src"
   ],
+  "scripts": {
+    "check:types": " tsc",
+    "test": "cypress run --e2e -b chrome"
+  },
   "peerDependencies": {
     "cypress": ">=10"
   },
