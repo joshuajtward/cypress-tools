@@ -1,18 +1,35 @@
 {
   "name": "cypress-tools",
   "description": "A set of Cypress commands to make writing and reading tests clearer",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/joshuajtward/cypress-tools"
   },
   "license": "MIT",
-  "main": "src",
+  "source": "src/index.ts",
+  "main": "./dist/index.js",
+  "module": "dist/module.js",
+  "types": "./dist/types.d.ts",
   "files": [
-    "src"
+    "./dist"
   ],
+  "scripts": {
+    "build": "parcel build",
+    "check:types": " tsc",
+    "lint": "eslint src/"
+  },
+  "peerDependencies": {
+    "cypress": ">=10"
+  },
   "devDependencies": {
-    "cypress": "^7.0.0",
-    "yarn": "^1.22.10"
+    "@parcel/packager-ts": "2.11.0",
+    "@parcel/transformer-typescript-types": "2.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.18.0",
+    "@typescript-eslint/parser": "^6.18.0",
+    "cypress": "^13.6.2",
+    "eslint": "^8.56.0",
+    "parcel": "^2.11.0",
+    "typescript": "^5.3.3"
   }
 }
