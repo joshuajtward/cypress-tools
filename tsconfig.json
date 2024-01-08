@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "es2016",
     "lib": [
-      "es2016"
+      "ES6",
+      "dom",
     ],
     "esModuleInterop": true,
     "noEmit": true,
@@ -10,10 +11,11 @@
     "skipLibCheck": true,
     "strict": true,
     "types": [
-      "cypress"
+      "cypress",
+      "node"
     ]
   },
-  "files": [
-    "cypress/**"
+  "include": [
+    "."
   ]
 }
