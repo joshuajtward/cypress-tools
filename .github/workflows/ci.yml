@@ -29,7 +29,7 @@ jobs:
       - uses: actions/cache@v3
         id: cypressCache
         with:
-          key: node-modules-node-20-${{ hashFiles('yarn.lock') }}
+          key: cypress-node-20-${{ hashFiles('yarn.lock') }}
           path: ~/.cache/Cypress
       - run: yarn install
         if: steps.nodeCache.outputs.cache-hit != 'true'
