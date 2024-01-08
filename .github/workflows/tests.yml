@@ -14,5 +14,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - uses: actions/cache@v3
+        id: nodeCache
+        with:
+          key: node-modules-node-20-${{ hashFiles('yarn.lock') }}
+          path: node_modules/**
+      - uses: actions/cache@v3
+        with:
+          key: node-modules-node-20-${{ hashFiles('yarn.lock') }}
+          path: node_modules/**
       - run: yarn install
+        if: steps.nodeCache.outputs.cache-hit != 'true'
       - run: yarn cypress run
