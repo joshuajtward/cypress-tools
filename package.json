@@ -1,16 +1,16 @@
 {
   "name": "cypress-tools",
   "description": "A set of Cypress commands to make writing and reading tests clearer",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/joshuajtward/cypress-tools"
   },
   "license": "MIT",
   "source": "src/index.ts",
-  "main": "./dist/index.js",
+  "main": "dist/index.js",
   "module": "dist/module.js",
-  "types": "./dist/types.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "./dist"
   ],

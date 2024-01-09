@@ -1,3 +1,3 @@
-import "./assertions";
-import "./elements";
-import "./text";
+import "./commands/assertions";
+import "./commands/elements";
+import "./commands/text";

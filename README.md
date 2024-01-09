@@ -1,6 +1,6 @@
 [![NPM](https://nodei.co/npm/cypress-tools.png?compact=true)](https://nodei.co/npm/cypress-tools/)
 
-![tests](https://github.com/joshuajtward/cypress-tools/actions/workflows/tests.yml/badge.svg)
+![CI](https://github.com/joshuajtward/cypress-tools/actions/workflows/ci.yml/badge.svg)
 
 # cypress-tools
 
