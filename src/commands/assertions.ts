@@ -1,9 +1,7 @@
-import type { Target } from "../types";
-
 const matcher = (
   assertion: string,
-  subject: JQuery<HTMLElement>,
-  target: Target
+  subject: unknown,
+  target: Record<string, unknown>
 ) => {
   Object.entries(target).forEach(([k, v]) => {
     cy.wrap(subject).should(assertion, k, v);
@@ -35,9 +33,9 @@ Cypress.Commands.add(
     if (visibility === "exist") assertion = visibility;
     if (visibility === "nonExistent") assertion = "not.be.visible";
     if (visibility === "unchecked") assertion = "not.be.checked";
-    cy.getTag(tag)
-      .then((el) => (!!contains ? cy.wrap(el).contains(contains) : el))
-      .should(assertion);
+    !!contains
+      ? cy.getTag(tag).contains(contains).should(assertion)
+      : cy.getTag(tag).should(assertion);
   }
 );
 

@@ -1,19 +1,3 @@
-export type Target = Record<string, unknown>;
-export type TypeTextOptions = {
-  blur?: boolean;
-  clear?: boolean;
-  index?: number;
-};
-export type Visibility =
-  | "checked"
-  | "disabled"
-  | "enabled"
-  | "exist"
-  | "hidden"
-  | "nonExistent"
-  | "visible"
-  | "unchecked";
-
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -38,7 +22,7 @@ declare global {
        * //    .should('not.have.attr', 'aria-disabled', 'false' })
        * //    .and('not.have.attr', 'data-value', 50)
        */
-      assertAttr(target: Target): Chainable<unknown>;
+      assertAttr(target: Record<string, unknown>): Chainable<unknown>;
       /**
        * Asserts against the css of an element
        *
@@ -61,8 +45,8 @@ declare global {
        * //    .and('not.have.css', 'font-size', '10px')
        */
       assertCss(
-        target: Target,
-        antiTarget?: Target
+        target: Record<string, unknown>,
+        antiTarget?: Record<string, unknown>
       ): Chainable<JQuery<HTMLElement>>;
       /**
        * Asserts on the visibility of an element for a given tag
@@ -79,7 +63,15 @@ declare global {
        */
       assertVis(
         tag: string,
-        visibility?: Visibility,
+        visibility?:
+          | "checked"
+          | "disabled"
+          | "enabled"
+          | "exist"
+          | "hidden"
+          | "nonExistent"
+          | "visible"
+          | "unchecked",
         contains?: string
       ): Chainable<JQuery<HTMLElement>>;
       /**
@@ -177,7 +169,17 @@ declare global {
        * @example cy.typeText('input', 'Hello World')
        * @example cy.typeText('input', 'Hello World', { clear: false })
        */
-      typeText(tag: string, text: string, options?: TypeTextOptions): void;
+      typeText(
+        tag: string,
+        text: string,
+        options?: {
+          blur?: boolean;
+          clear?: boolean;
+          index?: number;
+        }
+      ): void;
     }
   }
 }
+
+export {};

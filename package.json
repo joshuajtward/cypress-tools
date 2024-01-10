@@ -1,7 +1,7 @@
 {
   "name": "cypress-tools",
   "description": "A set of Cypress commands to make writing and reading tests clearer",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/joshuajtward/cypress-tools"
@@ -15,7 +15,7 @@
     "./dist"
   ],
   "scripts": {
-    "build": "parcel build",
+    "build": "rm -rf dist && parcel build",
     "check:types": " tsc",
     "lint": "eslint src/"
   },
