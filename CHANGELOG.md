@@ -1,6 +1,6 @@
 # Changelog
 
-## [3.0.1](https://github.com/npm/cli/compare/v3.0.0...v3.0.1) (2024-01-10)
+## [3.0.1](https://github.com/joshuajtward/cypress-tools/compare/v3.0.0...v3.0.1) (2024-01-10)
 
 ### Bug Fixes
 
